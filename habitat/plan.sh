@@ -25,37 +25,48 @@ pkg_build_deps=(
   core/python
   core/util-linux
   core/zlib
+  core/lz4
   paytmlabs/hostname
   smartb/ck
   smartb/hwloc
+  smartb/libcircllhist
+  smartb/libcircmetrics
   smartb/libmtev/master/20170306140105
   smartb/udns
+  smartb/jlog
 )
 
 do_verify() {
   return 0
 }
 
-do_download()
-{
+do_download() {
   return 0
 }
 
-do_clean()
-{
+do_clean() {
   return 0
 }
 
-do_unpack()
-{
+do_unpack() {
   return 0
 }
 
-do_build()
-{
+do_build() {
   cd /src
   autoconf
-  export LDFLAGS="$LDFLAGS -ldl -lm"
+  export LDFLAGS="$LDFLAGS -ldl -lm \
+  -Wl,-rpath=$(hab pkg path core/libxml2)/lib \
+  -Wl,-rpath=$(hab pkg path core/libxslt)/lib \
+  -Wl,-rpath=$(hab pkg path core/lz4)/lib \
+  -Wl,-rpath=$(hab pkg path core/openssl)/lib \
+  -Wl,-rpath=$(hab pkg path core/pcre)/lib \
+  -Wl,-rpath=$(hab pkg path core/zlib)/lib \
+  -Wl,-rpath=$(hab pkg path smartb/ck)/lib \
+  -Wl,-rpath=$(hab pkg path smartb/hwloc)/lib \
+  -Wl,-rpath=$(hab pkg path smartb/jlog)/lib \
+  -Wl,-rpath=$(hab pkg path smartb/libcircllhist)/lib \
+  -Wl,-rpath=$(hab pkg path smartb/libcircmetrics)/lib"
   ./configure --prefix=$pkg_prefix
   make
   return $?
