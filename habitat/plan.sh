@@ -8,6 +8,7 @@ pkg_lib_dirs=(lib)
 pkg_include_dirs=(include)
 pkg_bin_dirs=(bin)
 pkg_build_deps=(
+  bixu/LuaJIT
   core/apr
   core/autoconf
   core/gcc
@@ -24,9 +25,10 @@ pkg_build_deps=(
   core/python
   core/util-linux
   core/zlib
+  paytmlabs/hostname
   smartb/ck
   smartb/hwloc
-  smartb/libmtev/master/20170303174901
+  smartb/libmtev/master/20170306140105
   smartb/udns
 )
 
@@ -41,20 +43,20 @@ do_download()
 
 do_clean()
 {
-    return 0
+  return 0
 }
 
 do_unpack()
 {
-    return 0
+  return 0
 }
 
 do_build()
 {
-  export LDFLAGS="-ldl -lm $LDFLAGS"
   cd /src
   autoconf
-  ./configure
+  export LDFLAGS="$LDFLAGS -ldl -lm"
+  ./configure --prefix=$pkg_prefix
   make
   return $?
 }
