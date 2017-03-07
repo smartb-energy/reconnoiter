@@ -74,7 +74,8 @@ do_build() {
   -Wl,-rpath=$(hab pkg path core/protobuf)/lib \
   -Wl,-rpath=$(hab pkg path smartb/libcircmetrics)/lib"
   ./configure --prefix=$pkg_prefix
-  sed -i "s@#!/usr/bin/perl@#!$(hab pkg path core/perl)/bin/perl@" /src/buildtools/xml2h
+  ln -s $(hab pkg path core/perl)/bin/perl /usr/bin/perl
+  #sed -i "s@#!/usr/bin/perl@#!$(hab pkg path core/perl)/bin/perl@" /src/buildtools/xml2h
   make
   return $?
 }
