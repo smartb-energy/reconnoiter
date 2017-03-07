@@ -15,6 +15,7 @@ pkg_build_deps=(
   core/jdk8
   core/libxml2
   core/libxslt
+  core/lz4
   core/mysql
   core/ncurses
   core/openssh
@@ -22,18 +23,18 @@ pkg_build_deps=(
   core/pcre
   core/postgresql
   core/protobuf
+  core/protobuf-c
   core/python
   core/util-linux
   core/zlib
-  core/lz4
   paytmlabs/hostname
   smartb/ck
   smartb/hwloc
+  smartb/jlog
   smartb/libcircllhist
   smartb/libcircmetrics
   smartb/libmtev/master/20170306140105
   smartb/udns
-  smartb/jlog
 )
 
 do_verify() {
@@ -66,6 +67,8 @@ do_build() {
   -Wl,-rpath=$(hab pkg path smartb/hwloc)/lib \
   -Wl,-rpath=$(hab pkg path smartb/jlog)/lib \
   -Wl,-rpath=$(hab pkg path smartb/libcircllhist)/lib \
+  -Wl,-rpath=$(hab pkg path core/glibc)/lib \
+  -Wl,-rpath=$(hab pkg path core/protobuf)/lib \
   -Wl,-rpath=$(hab pkg path smartb/libcircmetrics)/lib"
   ./configure --prefix=$pkg_prefix
   make
