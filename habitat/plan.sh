@@ -16,6 +16,8 @@ pkg_build_deps=(
   core/libxml2
   core/libxslt
   core/lz4
+  core/make
+  core/man-pages
   core/mysql
   core/ncurses
   core/openssh
@@ -35,6 +37,7 @@ pkg_build_deps=(
   smartb/libcircmetrics
   smartb/libmtev/master/20170306140105
   smartb/udns
+  smartb/yajl
 )
 
 do_verify() {
@@ -71,6 +74,7 @@ do_build() {
   -Wl,-rpath=$(hab pkg path core/protobuf)/lib \
   -Wl,-rpath=$(hab pkg path smartb/libcircmetrics)/lib"
   ./configure --prefix=$pkg_prefix
+  sed -i "s@#!/usr/bin/perl@#!$(hab pkg path core/perl)/bin/perl@" /src/buildtools/xml2h
   make
   return $?
 }
