@@ -59,6 +59,8 @@ do_unpack() {
 do_build() {
   cd /src
   autoconf
+  # FIXME: it seems unlikely that we need so many invocations of -Wl,rpath - can this be improved?
+  # Habitat should be providing these for us...
   export LDFLAGS="$LDFLAGS -ldl -lm \
   -Wl,-rpath=$(hab pkg path core/libxml2)/lib \
   -Wl,-rpath=$(hab pkg path core/libxslt)/lib \
